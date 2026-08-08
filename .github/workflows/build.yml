@@ -17,8 +17,9 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install flet groq
-          flet build apk --yes
-
+          # أمر سحري لتغيير اسم الحزمة في ملفات الإعدادات قبل البناء
+          flet build apk --name "AlOmran" --org "com.alomran" --yes
+          
       - uses: actions/upload-artifact@v4
         with:
           name: AlOmran-APK
