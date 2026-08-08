@@ -1,5 +1,5 @@
-product_name: "AlOmran"
+product: "معهد العمران"
 org: "com.alomran"
-company_name: "AlOmran"
-copyright: "Copyright © 2026"
-icon: "icon.png"
+android:
+  package_id: "com.alomran.institute"
+  icon: "icon.png"
