@@ -1,4 +1,5 @@
-product: "معهد العمران"
+product: "AlOmranInstitute"
+description: "الدليل الشامل لمعهد العمران"
 org: "com.alomran"
 android:
   package_id: "com.alomran.institute"
