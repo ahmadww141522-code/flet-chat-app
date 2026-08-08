@@ -1,3 +1,5 @@
 product_name: "AlOmran"
 org: "com.alomran"
-app_id: "com.alomran.app"
+company_name: "AlOmran"
+copyright: "Copyright © 2026"
+icon: "icon.png"
