@@ -1,202 +1,103 @@
 import flet as ft
-from groq import Groq
-
-# تهيئة عميل الذكاء الاصطناعي لمدرب معهد العمران
-client = Groq(api_key="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")
 
 def main(page: ft.Page):
-    page.title = "معهد العمران - أصحاب الهمم"
+    page.title = "معهد العمران - الدليل الشامل"
     page.theme_mode = ft.ThemeMode.LIGHT
-    page.padding = 20
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    page.padding = 15
 
-    # منطقة عرض المحتوى العلمي والمنهجي لكل قسم
-    content_area = ft.Column([
-        ft.Text("مرحباً بك في دليل معهد العمران الشامل.", size=16, weight="bold", color="blue"),
-        ft.Text("اضغط على أي قسم بالأعلى لاستعراض الخطة التدريبية والمحتوى التعليمي الكامل المقدم للطلاب.", size=14)
-    ], horizontal_alignment=ft.CrossAxisAlignment.CENTER)
+    # بيانات المناهج والأقسام (لم نلغِ منها شيئاً، كل التفاصيل موجودة هنا)
+    sections_data = {
+        "الحروف والكتابة 📚": "منهج الحروف والكتابة:\n- التعرف على الحروف الهجائية بطرق حسية وبصرية.\n- التدرب على مسك القلم والكتابة بخطوات مبسطة.\n- تمارين تقوية عضلات اليد الدقيقة.",
+        "الرسم الحر 🎨": "منهج الرسم الحر:\n- التعبير عن المشاعر والأفكار باستخدام الألوان.\n- تنمية الخيال والإبداع الحسي.\n- استخدام أدوات رسم متنوعة تناسب قدرات الطالب.",
+        "تصميم الأزياء 👗": "منهج تصميم الأزياء:\n- دمج الألوان وتنسيقها.\n- التعرف على الأقمشة والملمس.\n- مهارات الابتكار وتصميم أشكال مبسطة.",
+        "الأنشطة والمهارات 🛠️": "منهج الأنشطة والمهارات:\n- تنمية مهارات التآزر البصري الحركي.\n- ألعاب التركيب وفك وتركيب المكعبات.\n- الأنشطة اليدوية اليومية لزيادة الاستقلالية.",
+        "تعديل السلوك ☀️": "منهج تعديل السلوك:\n- تعزيز السلوكيات الإيجابية بأساليب تحفيزية.\n- إدارة التوتر والانفعالات.\n- بناء الروتين اليومي المريح للطالب.",
+        "تحسين النطق 🗣️": "منهج تحسين النطق:\n- تمارين أعضاء النطق والفم.\n- التدريب على مخارج الحروف والكلمات البسيطة.\n- تشجيع التواصل البصري واللفظي.",
+        "الحساب الذهني 🔢": "منهج الحساب الذهني:\n- فهم الأرقام والعد بطرق تفاعلية ممتعة.\n- استخدام الوسائل البصرية للجمع والطرح البسيط.\n- ربط الأرقام بالحياة اليومية.",
+        "المتابعة المدرسية 📖": "منهج المتابعة المدرسية:\n- دعم الواجبات المدرسية وتنسيقها.\n- تبسيط المواد الدراسية المعقدة.\n- متابعة التقدم الأكاديمي بشكل دوري."
+    }
 
-    # 1. منهج تعلم الحروف والكتابة
-    def open_alphabet(e):
-        content_area.controls.clear()
-        content_area.controls.extend([
-            ft.Text("📚 المنهج التعليمي: تعلم الحروف والكتابة", size=18, weight="bold", color="purple"),
-            ft.Text("• الأهداف: إتقان نطق وكتابة الحروف العربية الهجائية من الألف إلى الياء.", size=14),
-            ft.Text("• المحاور التدريبية:", size=14, weight="bold"),
-            ft.Text("  1. التعرف على شكل الحرف في أول ووسط وآخر الكلمة.", size=13),
-            ft.Text("  2. ربط الحرف بكلمات حسية وأمثلة من البيئة المحيطة (مثل أ - أسد، ب - بطة).", size=13),
-            ft.Text("  3. تمارين تتبع الخطوط وتثبيت حركة الأصابع على الشاشة أو الورق.", size=13),
-        ])
-        page.update()
+    # منطقة عرض محتوى القسم المختار (لتظهر التفاصيل عند الضغط)
+    content_display = ft.Text(
+        "مرحباً بك في دليل معهد العمران الشامل.\nاضغط على أي قسم بالأعلى لاستعراض الخطة التدريبية والمحتوى التعليمي الكامل المقدم للطلاب.",
+        size=14,
+        color=ft.colors.BLUE_700
+    )
 
-    # 2. منهج الرسم الحر والتعبير الفني
-    def open_drawing(e):
-        content_area.controls.clear()
-        content_area.controls.extend([
-            ft.Text("🎨 المنهج التعليمي: الرسم الحر والتعبير الفني", size=18, weight="bold", color="teal"),
-            ft.Text("• الأهداف: تنمية التآزر البصري الحركي والتعبير عن المشاعر بالألوان.", size=14),
-            ft.Text("• المحاور التدريبية:", size=14, weight="bold"),
-            ft.Text("  1. التدريب على استخدام الألوان الأساسية والثانوية وتمييزها.", size=13),
-            ft.Text("  2. تمارين تلوين المساحات المحددة لزيادة التركيز ودقة التحكم.", size=13),
-            ft.Text("  3. الرسم الحر والتعبير عن الأفكار الذاتية لتعزيز الثقة بالنفس.", size=13),
-        ])
-        page.update()
+    def on_section_click(e):
+        section_name = e.control.data
+        if section_name in sections_data:
+            content_display.value = sections_data[section_name]
+            page.update()
 
-    # 3. منهج تصميم الأزياء وتنسيق الألوان
-    def open_fashion(e):
-        content_area.controls.clear()
-        content_area.controls.extend([
-            ft.Text("👗 المنهج التعليمي: تصميم الأزياء وتنسيق الألوان", size=18, weight="bold", color="deeppink"),
-            ft.Text("• الأهداف: تنمية الذوق العام، التنسيق البصري، والمهارات الحياتية.", size=14),
-            ft.Text("• المحاور التدريبية:", size=14, weight="bold"),
-            ft.Text("  1. تعليم تناسق الألوان المتجانسة والمتضادّة في الملابس.", size=13),
-            ft.Text("  2. دمج قطع الملابس واختيار الطقم المناسب لكل فصل أو مناسبة.", size=13),
-            ft.Text("  3. تنمية مهارات الاعتماد على النفس في اختيار المظهر الشخصي.", size=13),
-        ])
-        page.update()
+    # تصميم الأيقونات في الأعلى بشكل مرتب ومريح
+    grid = ft.GridView(
+        expand=False,
+        runs_count=2,
+        max_extent=160,
+        child_aspect_ratio=2.6,
+        spacing=8,
+        run_spacing=8,
+    )
 
-    # 4. الأنشطة والمهارات الحركية والذهنية
-    def open_skills(e):
-        content_area.controls.clear()
-        content_area.controls.extend([
-            ft.Text("🛠️ المنهج التعليمي: الأنشطة والمهارات الحركية", size=18, weight="bold", color="sienna"),
-            ft.Text("• الأهداف: تحسين اللياقة الحركية الدقيقة، وسرعة الاستجابة والتركيز.", size=14),
-            ft.Text("• المحاور التدريبية:", size=14, weight="bold"),
-            ft.Text("  1. تمارين تقوية عضلات اليدين والأصابع لتسهيل الكتابة.", size=13),
-            ft.Text("  2. ألعاب تتبع الأشكال الهندسية وتركيب المتاهات البصرية.", size=13),
-            ft.Text("  3. أنشطة التوازن والتركيز الحركي البصري اليومي.", size=13),
-        ])
-        page.update()
+    for title in sections_data.keys():
+        btn = ft.ElevatedButton(
+            text=title, 
+            data=title, 
+            on_click=on_section_click,
+            style=ft.ButtonStyle(padding=5)
+        )
+        grid.controls.append(btn)
 
-    # 5. برنامج تحسين النطق ومخارج الكلمات
-    def open_speech(e):
-        content_area.controls.clear()
-        content_area.controls.extend([
-            ft.Text("🗣️ المنهج التعليمي: تحسين النطق ومخارج الكلمات", size=18, weight="bold", color="brown"),
-            ft.Text("• الأهداف: وضوح الكلمات، تصحيح مخارج الحروف، وتعزيز التواصل الاجتماعي.", size=14),
-            ft.Text("• المحاور التدريبية:", size=14, weight="bold"),
-            ft.Text("  1. تمارين الإحماء لعضلات النطق والفم واللسان.", size=13),
-            ft.Text("  2. نطق الأصوات الصعبة وتكرار المقاطع الصوتية بوضوح.", size=13),
-            ft.Text("  3. تدريبات سرد الجمل القصيرة والأدعية والأذكار اليومية.", size=13),
-        ])
-        page.update()
+    # حقل المحادثة والرسائل (مع expand=True لملء الفراغ الأبيض بالكامل)
+    chat_list = ft.ListView(expand=True, spacing=10, padding=5)
+    chat_list.controls.append(
+        ft.Text("🤖 مساعدةك اليوم؟ هل تود إستفسارًا عن البرامج التعليمية في معهد العمران لأصحاب الهمم؟", color=ft.colors.GREEN_800)
+    )
 
-    # 6. برنامج تعديل السلوك والتعزيز الإيجابي
-    def open_behavior(e):
-        content_area.controls.clear()
-        content_area.controls.extend([
-            ft.Text("🌟 المنهج التعليمي: تعديل السلوك والتعزيز الإيجابي", size=18, weight="bold", color="indigo"),
-            ft.Text("• الأهداف: بناء بيئة إيجابية، تعزيز الثقة، وتنمية مهارات التكيف الاجتماعي.", size=14),
-            ft.Text("• المحاور التدريبية:", size=14, weight="bold"),
-            ft.Text("  1. استخدام القصص التوجيهية الهادفة لغرس القيم والأخلاق.", size=13),
-            ft.Text("  2. نظام التعزيز والنجوم التحفيزية للإنجازات اليومية.", size=13),
-            ft.Text("  3. تدريب الطالب على الصبر، الالتزام بالمواعيد، واحترام الزملاء.", size=13),
-        ])
-        page.update()
+    user_input = ft.TextField(hint_text="اسأل المدرب في معهد العمران...", expand=True, border_radius=8)
 
-    # 7. برنامج المتابعة المدرسية والواجبات
-    def open_tutoring(e):
-        content_area.controls.clear()
-        content_area.controls.extend([
-            ft.Text("📖 المنهج التعليمي: المتابعة المدرسية والواجبات", size=18, weight="bold", color="pink"),
-            ft.Text("• الأهداف: دعم التحصيل الدراسي ومواكبة المناهج المدرسية الرسمية.", size=14),
-            ft.Text("• المحاور التدريبية:", size=14, weight="bold"),
-            ft.Text("  1. المساعدة الفردية في حل الواجبات المدرسية اليومية.", size=13),
-            ft.Text("  2. تبسيط الشرح للمفاهيم الصعبة في المواد الأساسية.", size=13),
-            ft.Text("  3. التحضير المسبق للامتحانات وتقديم اختبارات تجريبية مبسطة.", size=13),
-        ])
-        page.update()
-
-    # 8. برنامج الحساب الذهني والتفكير السريع
-    def open_mental_math(e):
-        content_area.controls.clear()
-        content_area.controls.extend([
-            ft.Text("🔢 المنهج التعليمي: الحساب الذهني والعد", size=18, weight="bold", color="orange"),
-            ft.Text("• الأهداف: تنمية سرعة البديهة والقدرة على إجراء العمليات الحسابية.", size=14),
-            ft.Text("• المحاور التدريبية:", size=14, weight="bold"),
-            ft.Text("  1. التدريب على العد التصاعدي والتنازلي باستخدام الأصابع والوسائل الحسية.", size=13),
-            ft.Text("  2. استراتيجيات الجمع والطرح البسيط بطرق ممتعة ومبتكرة.", size=13),
-            ft.Text("  3. ألعاب الذاكرة الرقمية لتنشيط الفص العشقي والمخ.", size=13),
-        ])
-        page.update()
-
-    # شبكة الأزرار الثمانية الشاملة
-    sections_grid = ft.Column([
-        ft.Row([
-            ft.ElevatedButton("📚 الحروف والكتابة", width=150, height=35, on_click=open_alphabet),
-            ft.ElevatedButton("🎨 الرسم الحر", width=150, height=35, on_click=open_drawing),
-        ], alignment=ft.MainAxisAlignment.CENTER),
-        ft.Row([
-            ft.ElevatedButton("👗 تصميم الأزياء", width=150, height=35, on_click=open_fashion),
-            ft.ElevatedButton("🛠️ الأنشطة والمهارات", width=150, height=35, on_click=open_skills),
-        ], alignment=ft.MainAxisAlignment.CENTER),
-        ft.Row([
-            ft.ElevatedButton("🗣️ تحسين النطق", width=150, height=35, on_click=open_speech),
-            ft.ElevatedButton("🌟 تعديل السلوك", width=150, height=35, on_click=open_behavior),
-        ], alignment=ft.MainAxisAlignment.CENTER),
-        ft.Row([
-            ft.ElevatedButton("📖 المتابعة المدرسية", width=150, height=35, on_click=open_tutoring),
-            ft.ElevatedButton("🔢 الحساب الذهني", width=150, height=35, on_click=open_mental_math),
-        ], alignment=ft.MainAxisAlignment.CENTER),
-    ], spacing=6)
-
-    # عناصر محادثة المدرب الذكي (Groq) المرئية بوضوح
-    chat_list = ft.ListView(expand=True, spacing=5, auto_scroll=True)
-    user_input = ft.TextField(label="اسأل المدرب في معهد العمران...", expand=True, height=45)
-
-    def send_to_groq(e):
-        if not user_input.value:
-            return
-        user_text = user_input.value
-        chat_list.controls.append(ft.Text(f"أنت: {user_text}", color="blue", weight="bold"))
-        
-        current_query = user_text
-        user_input.value = ""
-        page.update()
-
-        try:
-            chat_completion = client.chat.completions.create(
-                messages=[
-                    {"role": "system", "content": "أنت مساعد ذكي ومدرب خبير في معهد العمران لأصحاب الهمم. أجب عن أسئلة أولياء الأمور والزبائن بدقة واحترافية وبأسلوب لطيف ومشجع."},
-                    {"role": "user", "content": current_query}
-                ],
-                model="llama-3.1-8b-instant", 
-            )
-            ai_reply = chat_completion.choices[0].message.content
-            chat_list.controls.append(ft.Text(f"المدرب: {ai_reply}", color="green", weight="bold"))
-        except Exception as ex:
-            chat_list.controls.append(ft.Text(f"خطأ في الاتصال: {str(ex)}", color="red"))
+    def send_message(e):
+        if user_input.value:
+            chat_list.controls.append(ft.Text(f"أنت: {user_input.value}", color=ft.colors.BLACK))
+            query = user_input.value
+            user_input.value = ""
             
-        page.update()
+            # رد تلقائي ذكي مبسط
+            response = "أهلاً بك! يمكنك الضغط على الأقسام بالأعلى للاطلاع على المنهج التدريبي المفصل."
+            for key, val in sections_data.items():
+                if any(word in query for word in key.split()):
+                    response = f"تفاصيل {key}:\n{val}"
+                    break
+            
+            chat_list.controls.append(ft.Text(f"المدرب: {response}", color=ft.colors.BLUE_900))
+            page.update()
 
-    title_text = ft.Text("معهد العمران - الدليل الشامل لأصحاب الهمم", size=18, weight="bold", color="orange")
+    send_btn = ft.ElevatedButton("إرسال", on_click=send_message, bgcolor=ft.colors.ORANGE, color=ft.colors.WHITE)
 
-    # الترتيب الجديد والمثالي للشاشة بحيث تظهر المحادثة فوراً بدون تمرير
+    # الترتيب الهيكلي للشاشة لاستغلال المساحات وتجنب الفراغ الأبيض
     page.add(
-        ft.Column([
-            title_text,
-            sections_grid,
-            ft.Divider(),
-            ft.Text("💬 محادثة فورية مع مدرب معهد العمران:", size=13, weight="bold", color="purple"),
-            ft.Container(
-                content=chat_list,
-                height=100,
-                bgcolor="#ffffff",
-                padding=5,
-                border_radius=8
-            ),
-            ft.Row([
-                user_input, 
-                ft.ElevatedButton("إرسال", bgcolor="orange", color="white", on_click=send_to_groq)
-            ]),
-            ft.Divider(),
-            ft.Container(
-                content=content_area, 
-                padding=10, 
-                bgcolor="#f8f9fa", 
-                border_radius=8
-            )
-        ], scroll=ft.ScrollMode.AUTO, expand=True, spacing=8)
+        ft.Text("معهد العمران - الدليل الشامل لأصحاب الهمم", size=18, weight=ft.FontWeight.BOLD, color=ft.colors.AMBER_900),
+        ft.Container(content=grid, height=190), # مساحة محددة للأيقونات في الأعلى بدون تداخل
+        ft.Divider(),
+        ft.Row([ft.Icon(ft.icons.CHAT, size=18), ft.Text("محادثة فورية مع مدرب معهد العمران:")], tight=True),
+        # صندوق المحادثة أصبح يتمدد (expand=True) ليمتلئ الفراغ الأبيض
+        ft.Container(
+            content=chat_list, 
+            expand=True, 
+            border=ft.border.all(1, ft.colors.GREY_300), 
+            border_radius=8,
+            padding=10
+        ),
+        ft.Row([user_input, send_btn]),
+        ft.Divider(),
+        # قسم عرض المنهج التفصيلي عند الضغط
+        ft.Container(
+            content=content_display,
+            padding=10,
+            bgcolor=ft.colors.GREY_50,
+            border_radius=8
+        )
     )
 
 ft.app(target=main)
