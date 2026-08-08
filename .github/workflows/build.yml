@@ -13,13 +13,13 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install dependencies and build APK
+      - name: Build APK
         run: |
           pip install --upgrade pip
           pip install flet groq
-          flet build apk --yes
+          flet build apk --app-id "com.alomran.app" --product-name "AlOmran" --yes
 
       - uses: actions/upload-artifact@v4
         with:
-          name: app-release
+          name: AlOmran-APK
           path: build/apk/*.apk
