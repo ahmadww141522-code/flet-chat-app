@@ -1,29 +1,67 @@
-import flet as ft 
+import flet as ft
 from groq import Groq
-client= Groq(api_key="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")
+
+client = Groq(api_key="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")
+
 def main(page: ft.Page):
-    page.title="AI Chat Interface"
-    page.theme_mode=ft.ThemeMode.LIGHT
-    page.rtl=True
-    chat_display= ft.ListView(expand=True, spacing=10, auto_scroll=True)
-    user_input = ft.TextField(hint_text="اكتب سؤالك هنا", expand=True)
-    def send_message(e):
-        prompt = user_input.value
-        if not prompt:
+    page.title = "مهندس أحمد"
+    page.theme_mode = ft.ThemeMode.LIGHT
+    page.padding = 20
+
+    def calculate_all(e):
+        try:
+            v_val = float(v.value)
+            r_val = float(r.value)
+            current = v_val / r_val
+            power = v_val * current
+            res_ohm.value = f"التيار: {current:.2f} أمبير"
+            res_power.value = f"الاستطاعة: {power:.2f} واط"
+            page.update()
+        except:
+            res_ohm.value = "خطأ: أدخل أرقاماً صحيحة"
+            res_power.value = ""
+            page.update()
+
+    v = ft.TextField(label="الجهد (Volt)", width=200)
+    r = ft.TextField(label="المقاومة (Ohm)", width=200)
+    res_ohm = ft.Text(size=16, weight="bold")
+    res_power = ft.Text(size=16, weight="bold", color="blue")
+
+    chat_list = ft.ListView(expand=True, spacing=10, height=200)
+    user_input = ft.TextField(label="اسأل المهندس أحمد...", expand=True)
+
+    def send_to_groq(e):
+        if not user_input.value:
             return
-        chat_display.controls.append(ft.Text(f"انت: {prompt}", weight=ft.FontWeight.BOLD))
+        user_text = user_input.value
+        chat_list.controls.append(ft.Text(f"أنت: {user_text}", color="blue"))
+        
+        try:
+            chat_completion = client.chat.completions.create(
+                messages=[{"role": "user", "content": user_text}],
+                model="llama-3.1-8b-instant", 
+            )
+            ai_reply = chat_completion.choices[0].message.content
+            chat_list.controls.append(ft.Text(f"المهندس أحمد: {ai_reply}", color="green"))
+        except Exception as ex:
+            chat_list.controls.append(ft.Text(f"خطأ: {str(ex)}", color="red"))
+            
         user_input.value = ""
         page.update()
-        try :
-            completion=client.chat.completions.create(model="llama-3.1-8b-instant",messages=[{"role":"user","content": prompt}])
-            result= completion.choices[0].message.content
-            chat_display.controls.append(ft.Text(f"AI: {result}"))
-        except Exception as ex:
-            chat_display.controls.append(ft.Text(f"حدث خطأ : {ex.name}"))
-        page.update()
-    send_btn = ft.ElevatedButton("ارسال",on_click=send_message)
+
+    # جعل الصفحة قابلة للتمرير لكي تظهر كافة العناصر بوضوح
     page.add(
-        chat_display,
-        ft.Row([user_input, send_btn]))
-if __name__=="__main__":
-    ft.app(target=main)           
+        ft.Column([
+            ft.Text("الحسابات الهندسية (أوم والاستطاعة)", size=18, weight="bold"),
+            v, r, 
+            ft.ElevatedButton("احسب التيار والاستطاعة", on_click=calculate_all), 
+            res_ohm,
+            res_power,
+            ft.Divider(),
+            ft.Text("محادثة مع المهندس أحمد", size=18, weight="bold"),
+            chat_list,
+            ft.Row([user_input, ft.ElevatedButton("إرسال", on_click=send_to_groq)])
+        ], scroll=ft.ScrollMode.AUTO, expand=True, spacing=10)
+    )
+
+ft.app(target=main)
