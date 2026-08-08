@@ -17,7 +17,7 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install flet groq
-          flet build apk --project "AlOmran" --org "com.alomran" --name "AlOmran" --yes
+          flet build apk --yes
 
       - uses: actions/upload-artifact@v4
         with:
